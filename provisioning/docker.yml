@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name:  Install the packages 
+      ansible.builtin.apt:
+        pkg:
+        - docker
+        - docker.io
+        - docker-compose
+        - docker-registry
+        state: present
+
+    - name: Copy docker conf file with owner and permissions
+      ansible.builtin.copy:
+        src: daemon.json
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Restart docker
+
+    - name: Copy docker service file with owner and permissions
+      ansible.builtin.copy:
+        src: docker.service
+        dest: /lib/systemd/system/docker.service
+        owner: root
+        group: root
+        mode: '0644'
+        force: true
+      notify:  
+        - Systemd reread configs
+        - Restart docker
+
+  handlers:
+    - name: Systemd reread configs
+      ansible.builtin.systemd:
+        daemon_reload: true   
+
+    - name: Restart docker
+      service:
+        name: docker
+        state: restarted
+        
+      

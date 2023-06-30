@@ -1,0 +1,74 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  
+  vars:
+    python_version: 3.11.1
+    python_tarball_url: https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz
+    ensure_pip: install
+    enable_optimizations: true
+    make_num_threads: "{{ ansible_processor_vcpus }}"
+    python_path: "/usr/local/bin/python"
+
+  tasks:
+    - name: Python | Check if Python is present with the right version
+      command: "{{ python_path }}/bin/python{{ python_version[:4] }} --version"
+      register: command_result
+      ignore_errors: yes
+      changed_when: false
+      failed_when: false
+    
+    - name: Install the packages 
+      ansible.builtin.apt:
+        pkg:
+        - gcc
+        - g++
+        - make
+        - libbz2-dev
+        - libffi-dev
+        - libgdbm-dev
+        - liblzma-dev
+        - libncurses5-dev
+        - libreadline-dev
+        - libsqlite3-dev
+        - libssl-dev
+        - tk-dev
+        - uuid-dev
+        - zlib1g-dev
+        - build-essential 
+        - libnss3-dev 
+        state: present
+      when: command_result.rc > 0
+
+    - name: Download and unpacking Python tarball
+      unarchive:
+        src: "{{ python_tarball_url }}"
+        dest: /tmp
+        mode: 0755
+        remote_src: yes
+      when: command_result.rc > 0
+
+    - name: Download and unpacking Python tarball
+      unarchive:
+        src: "{{ python_tarball_url }}"
+        dest: /tmp
+        mode: 0755
+        remote_src: yes
+      when: command_result.rc > 0
+
+    - name: Configure Python source
+      shell: |
+        ./configure {{ enable_optimizations | ternary('--enable-optimizations --with-lto','') }} \
+        --with-system-ffi \
+        --with-ensurepip={{ ensure_pip }} \
+        --prefix={{ python_path }}
+      args:
+        chdir: "/tmp/Python-{{ python_version }}"
+      when: command_result.rc > 0
+
+    - name: Compile and install Python
+      shell: "make PROFILE_TASK='-m test.regrtest --pgo -j{{ make_num_threads }}' -j{{ make_num_threads }} && make altinstall"
+      args:
+        chdir: "/tmp/Python-{{ python_version }}"
+      when: command_result.rc > 0
