@@ -14,7 +14,7 @@
         - docker-registry
         state: present
 
-    - name: Copy docker conf file with owner and permissions
+    - name: Copy docker conf file
       ansible.builtin.copy:
         src: daemon.json
         dest: /etc/docker/daemon.json
@@ -24,7 +24,7 @@
       notify:
         - Restart docker
 
-    - name: Copy docker service file with owner and permissions
+    - name: Copy docker service file 
       ansible.builtin.copy:
         src: docker.service
         dest: /lib/systemd/system/docker.service
@@ -35,6 +35,14 @@
       notify:  
         - Systemd reread configs
         - Restart docker
+
+    - name: Copy Jenkins docker compose file
+      ansible.builtin.copy:
+        src: docker-compose.yaml
+        dest: /home/vagrant
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
 
   handlers:
     - name: Systemd reread configs
