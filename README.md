@@ -27,7 +27,7 @@ $ vagrant ssh -c 'sudo docker exec $(sudo docker ps -q) cat /var/jenkins_home/se
 
 And put it on page  http://localhost:8080/
 
-Please add user test:test. Then you need update Jenkins and restart.
+Please add user test:test. Then you need to update Jenkins using web page and press restart option.
 
 Jenkins restart in container didn`t work propertly so you need manualy start jenkins again by run command:
 
