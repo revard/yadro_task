@@ -36,14 +36,6 @@
         - Systemd reread configs
         - Restart docker
 
-    - name: Copy Jenkins docker compose file
-      ansible.builtin.copy:
-        src: docker-compose.yaml
-        dest: /home/vagrant
-        owner: vagrant
-        group: vagrant
-        mode: '0644'
-
   handlers:
     - name: Systemd reread configs
       ansible.builtin.systemd:

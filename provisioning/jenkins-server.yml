@@ -1,0 +1,31 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name: Jenkins | Copy Jenkins docker compose file and make file
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /home/vagrant/
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+      loop:
+        - docker-compose.yml
+        - Makefile
+
+    - name: Install the packages 
+      ansible.builtin.apt:
+        pkg: make
+
+#    - name: deploy Docker Compose stack
+#      community.docker.docker_compose:
+#        project_src: /home/vagrant
+#        files:
+#        - docker-compose.yml
+
+    - name: Init docker-compose by - make init
+      shell: "make init"
+
