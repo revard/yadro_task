@@ -30,7 +30,7 @@ services:
     command: ["bash", "-c", "apt update; apt install curl -y; tail -f /dev/null"]
     volumes:
       - ./jenkins_agent_create.sh:/home/jenkins/jenkins_agent_create.sh
-#    entrypoint: /var/jenkins_home/jenkins_agent_create.sh
+
 
 networks:
   jenkins:

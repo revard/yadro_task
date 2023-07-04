@@ -32,3 +32,5 @@ cat <<EOF | java -jar ~jenkins/jenkins-cli.jar -auth "${MASTER_USERNAME}:${MASTE
   <userId>${USER}</userId>
 </slave>
 EOF
+
+curl ${MASTER_URL}/jnlpJars/agent.jar -o ~jenkins/agent.jar
