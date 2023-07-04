@@ -4,5 +4,8 @@
   become_user: root
 
   tasks:
-    - name: Init docker-compose by - make init
-      shell: "jenkins_agent_create.sh"
+    - name: Jenkins agent setup
+      shell: "docker exec $(sudo docker ps -aqf 'name=agent') /home/jenkins/jenkins_agent_create.sh"
+
+#    - name: Jenkins agent init
+#      shell: "pwd; docker exec $(sudo docker ps -aqf 'name=agent') /home/jenkins/jenkins_agent_init.sh 381102d7dbccc257d10ae32efdf1ba634660ba095f5a1b702f8318e308ffb5f5"   

@@ -34,3 +34,6 @@ cat <<EOF | java -jar ~jenkins/jenkins-cli.jar -auth "${MASTER_USERNAME}:${MASTE
 EOF
 
 curl ${MASTER_URL}/jnlpJars/agent.jar -o ~jenkins/agent.jar
+
+# Run jnlp launcher
+java -jar /usr/share/jenkins/slave.jar -jnlpUrl ${MASTER_URL}/computer/${NODE_NAME}/slave-agent.jnlp -jnlpCredentials "${MASTER_USERNAME}:${MASTER_PASSWORD}"
