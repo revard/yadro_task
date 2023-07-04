@@ -2,17 +2,17 @@
 
 set -xe
 
-MASTER_URL="http://localhost:8080/"
+MASTER_URL="http://172.168.0.2:8080/"
 MASTER_USERNAME="test"
 MASTER_PASSWORD="test"
 NODE_NAME="bullseye"
 NUM_EXECUTORS=2
 
 # Download CLI jar from the master
-curl ${MASTER_URL}/jnlpJars/jenkins-cli.jar -o ~/jenkins-cli.jar
+curl ${MASTER_URL}/jnlpJars/jenkins-cli.jar -o ~jenkins/jenkins-cli.jar
 
 # Create node according to parameters passed in
-cat <<EOF | java -jar ~/jenkins-cli.jar -auth "${MASTER_USERNAME}:${MASTER_PASSWORD}" -s "${MASTER_URL}" create-node "${NODE_NAME}" |true
+cat <<EOF | java -jar ~jenkins/jenkins-cli.jar -auth "${MASTER_USERNAME}:${MASTER_PASSWORD}" -s "${MASTER_URL}" create-node "${NODE_NAME}" |true
 <slave>
   <name>${NODE_NAME}</name>
   <description></description>

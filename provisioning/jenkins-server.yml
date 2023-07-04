@@ -5,7 +5,7 @@
 
   tasks:
 
-    - name: Jenkins | Copy Jenkins docker compose file and make file
+    - name: Jenkins | Copy Jenkins docker compose files and make file
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: /home/vagrant/
@@ -15,6 +15,16 @@
       loop:
         - docker-compose.yml
         - Makefile
+
+    - name: Jenkins | Copy Jenkins agent init script
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /home/vagrant/
+        owner: vagrant
+        group: vagrant
+        mode: '0754'
+      loop:
+        - jenkins_agent_create.sh
 
     - name: Install the packages 
       ansible.builtin.apt:

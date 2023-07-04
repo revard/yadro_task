@@ -1,14 +1,41 @@
 version: '3.3'
 services:
+
   jenkins:
 #    image: jenkins/jenkins:lts
     image: jenkinsci/blueocean
     privileged: true
     user: root
+    networks:
+      jenkins:
+        ipv4_address: 172.168.0.2
+    container_name: jenkins
     ports:
       - 8080:8080
       - 50000:50000
-    container_name: jenkins
     volumes:
-      - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - ./jenkins_configuration:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+
+  agent:
+    image: jenkins/ssh-agent:jdk11
+    privileged: true
+    user: root
+    container_name: agent
+    networks:
+      jenkins:
+        ipv4_address: 172.168.0.3
+    expose:
+      - 22
+    command: ["bash", "-c", "apt update; apt install curl -y; tail -f /dev/null"]
+    volumes:
+      - ./jenkins_agent_create.sh:/home/jenkins/jenkins_agent_create.sh
+#    entrypoint: /var/jenkins_home/jenkins_agent_create.sh
+
+networks:
+  jenkins:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.168.0.0/24
+

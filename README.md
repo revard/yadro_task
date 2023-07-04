@@ -22,7 +22,7 @@ $ vagrant provision
 After Jenkins server installed you can find initial password by running command:
 
 ```
-$ vagrant ssh -c 'sudo docker exec $(sudo docker ps -q) cat /var/jenkins_home/secrets/initialAdminPassword'
+$  vagrant ssh -c 'sudo docker exec $(sudo docker ps -q | head -1) cat /var/jenkins_home/secrets/initialAdminPassword'
 ```
 
 And put it on page  http://localhost:8080/

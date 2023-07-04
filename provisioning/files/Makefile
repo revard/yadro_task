@@ -1,6 +1,6 @@
 .PHONY: init up down
 
-init: docker-down docker-pull docker-build docker-up  
+init: docker-pull docker-build docker-up  
 up: docker-up
 down: docker-down
 
