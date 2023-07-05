@@ -4,8 +4,42 @@
   become_user: root
 
   tasks:
-    - name: Jenkins agent setup
-      shell: "docker exec $(sudo docker ps -aqf 'name=agent') /home/jenkins/jenkins_agent_create.sh"
 
-#    - name: Jenkins agent init
-#      shell: "pwd; docker exec $(sudo docker ps -aqf 'name=agent') /home/jenkins/jenkins_agent_init.sh 381102d7dbccc257d10ae32efdf1ba634660ba095f5a1b702f8318e308ffb5f5"   
+    - name: Jenkins server | Copy Jenkins docker compose files and make file
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /home/vagrant/
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+      loop:
+        - Dockerfile
+
+    - name: Copy Jenkins agent init script
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /home/vagrant/
+        owner: vagrant
+        group: vagrant
+        mode: '0754'
+      loop:
+        - jenkins_agent_create.sh
+
+    - name: build container image
+      community.docker.docker_image:
+        name: my-jenkins-agent:latest
+        build:
+          path: /home/vagrant
+        source: build
+        state: present
+        tag: latest
+
+
+    - name: Start a container with a command
+      community.docker.docker_container:
+        name: my-reg-agent
+        image: my-jenkins-agent:latest
+        command: ["/home/jenkins/jenkins_agent_create.sh"]
+        networks:
+          - name: vagrant_jenkins
+            ipv4_address: "172.168.0.4"

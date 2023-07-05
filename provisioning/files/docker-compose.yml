@@ -17,20 +17,20 @@ services:
       - ./jenkins_configuration:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
 
-  agent:
-    image: jenkins/ssh-agent:jdk11
-    privileged: true
-    user: root
-    container_name: agent
-    networks:
-      jenkins:
-        ipv4_address: 172.168.0.3
-    expose:
-      - 22
-    command: ["bash", "-c", "apt update; apt install curl -y; tail -f /dev/null"]
-    volumes:
-      - ./jenkins_agent_create.sh:/home/jenkins/jenkins_agent_create.sh
-      - ./jenkins_agent_init.sh:/home/jenkins/jenkins_agent_init.sh
+#  agent:
+#    image: jenkins/ssh-agent:jdk11
+#    privileged: true
+#    user: root
+#    container_name: agent
+#    networks:
+#      jenkins:
+#        ipv4_address: 172.168.0.3
+#    expose:
+#      - 22
+#    command: ["bash", "-c", "apt update; apt install curl -y; tail -f /dev/null"]
+#    volumes:
+#      - ./jenkins_agent_create.sh:/home/jenkins/jenkins_agent_create.sh
+#      - ./jenkins_agent_init.sh:/home/jenkins/jenkins_agent_init.sh
 
 
 networks:
