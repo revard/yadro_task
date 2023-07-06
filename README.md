@@ -8,7 +8,7 @@ Brief description of this project:
 2. Deploy VM server by ansible playbooks using Vagrant.
     - Packages updating
     - Python 3 installation (/usr/local/bin/python/bin/python3.11)
-    - Docker installation and change default network to 10.00.1
+    - Docker installation and change default network to 10.0.0.1
     - Jenkins server deployment (manual setup)
 3. Run registered jenkins agent by ansible playbook.
 
