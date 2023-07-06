@@ -1,15 +1,33 @@
 pipeline {
-    agent bullseye
+agent {
+    docker {
+        image 'python:latest'
+    }
+}
     stages {
+
         stage('Build') { 
-            agent {
-                docker {
-                    image 'python:2-alpine' 
-                }
-            }
             steps {
-                sh 'python -m py_compile sources/add2vals.py sources/calc.py' 
-                stash(name: 'compiled-results', includes: 'sources/*.py*') 
+                echo 'Generating distribution archives'
+                sh """
+                    python3 -m pip install --upgrade build
+                    rm -rf ./dist
+                    python3 -m build
+                """                
+            }
+        }
+        
+        stage('Deploy') {
+            environment {
+                TEST_PYPI_CREDS = credentials('test-pypi')
+            }               
+            steps {          
+            echo 'Deploying....'
+            echo 'Generating distribution archives'
+            sh """            
+                python3 -m pip install --upgrade twine
+                python3 -m twine upload --repository testpypi dist/* -u ${TEST_PYPI_CREDS_USR} -p ${TEST_PYPI_CREDS_PSW}
+            """        
             }
         }
     }

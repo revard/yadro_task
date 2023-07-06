@@ -7,12 +7,14 @@ Brief description of this project:
 1. Instal VM by Vagrant.
 2. Deploy VM server by ansible playbooks using Vagrant.
     - Packages updating
-    - Python 3 installation
-    - Docker installation and change default networ to 10.00.1
+    - Python 3 installation (/usr/local/bin/python/bin/python3.11)
+    - Docker installation and change default network to 10.00.1
     - Jenkins server deployment (manual setup)
 3. Run registered jenkins agent by ansible playbook.
 
 ### Vagrant 
+
+Clone repo.
 
 You can change VM settings in config file `Vagrantfile` for example NET_CARD_NAME `config.vm.network "public_network" , bridge: "NET_CARD_NAME"`
 
@@ -34,13 +36,13 @@ $ vagrant ssh
 
 ### Jenkins
 
-After Jenkins server installed you can find initial password in bottom of screen or by running command:
+After Jenkins server installed you can find initial password by running command:
 
 ```
-$  vagrant ssh -c 'sudo docker exec $(sudo docker ps -aqf "name=jenkins") cat /var/jenkins_home/secrets/initialAdminPassword'
+$ vagrant ssh -c "/home/vagrant/jenkins_init_pass.sh"
 ```
 
-And put it on page  http://localhost:8080/
+Put initial password it on page  http://localhost:8080/
 
 Please add user test:test. You can update Jenkins using web page and press restart option.
 
@@ -70,6 +72,6 @@ Here python test project https://github.com/revard/pkg_py_proj/ and Jenkins file
 
 ## TODO
 
-1. Rewrite with roles
-2. Jenkins automation install 
+1. Rewrite with roles. 
+2. Jenkins automation install. For example https://github.com/Praqma/jcasc-core/
 

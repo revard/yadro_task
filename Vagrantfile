@@ -25,8 +25,4 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "provisioning/main.yml"
     ansible.verbose = true
   end
-
-  config.vm.provision :shell do |shell|
-    shell.inline = "/home/vagrant/jenkins_init_pass.sh"
-  end
 end
