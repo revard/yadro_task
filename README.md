@@ -25,11 +25,14 @@ $ vagrant destroy
 
 # Run ansible provision
 $ vagrant provision
+
+# SSH login to VM
+$ vagrant ssh
 ```
 
 ### Jenkins
 
-After Jenkins server installed you can find initial password by running command:
+After Jenkins server installed you can find initial password in bottom of screen or by running command:
 
 ```
 $  vagrant ssh -c 'sudo docker exec $(sudo docker ps -aqf "name=jenkins") cat /var/jenkins_home/secrets/initialAdminPassword'
@@ -49,14 +52,22 @@ On page Instance Configuration, setup `Jenkins URL:￼http://172.168.0.2:8080/`
 
 #### Agent
 
-After configuring Jenkins run ansible playbook for start registered jenkins agent. Please write real user name.
-
+After Jenkins server configuring please run ansible playbook to start registered jenkins agent:
 
 ```
-$ PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=false ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o ControlMaster=auto -o ControlPersist=60s'  ansible-playbook --connection=ssh --timeout=30 --limit="default" --inventory-file=/home/[!!!USER_NAME!!!]/yadro_task/.vagrant/provisioners/ansible/inventory -v provisioning/jenkins-client.yml
+./provisioning/files/vg_run_jenkins_agent.sh
 ```
+
+You can check agent status on http://localhost:8080/computer/bullseye/
+
+### Jenkins file for packaging python project
+
+Here python test project https://github.com/revard/pkg_py_proj/ and Jenkins file - https://github.com/revard/pkg_py_proj/blob/main/Jenkinsfile
+
+---
 
 ### TODO
 
-1. Rewrite roles
+1. Rewrite with roles
 2. Jenkins automation install 
+

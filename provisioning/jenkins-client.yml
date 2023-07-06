@@ -5,7 +5,7 @@
 
   tasks:
 
-    - name: Jenkins server | Copy Jenkins docker compose files and make file
+    - name: Jenkins server | Copy Jenkins docker file
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: /home/vagrant/
@@ -25,7 +25,7 @@
       loop:
         - jenkins_agent_create.sh
 
-    - name: build container image
+    - name: Build container image
       community.docker.docker_image:
         name: my-jenkins-agent:latest
         build:

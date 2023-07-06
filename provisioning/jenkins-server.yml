@@ -15,8 +15,8 @@
       loop:
         - docker-compose.yml
         - Makefile
-
-    - name: Copy Jenkins agent init script
+    
+    - name: Copy Jenkins init passwd
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: /home/vagrant/
@@ -24,17 +24,11 @@
         group: vagrant
         mode: '0754'
       loop:
-        - jenkins_agent_create.sh
+        - jenkins_init_pass.sh
 
     - name: Install the packages 
       ansible.builtin.apt:
         pkg: make
-
-#    - name: deploy Docker Compose stack
-#      community.docker.docker_compose:
-#        project_src: /home/vagrant
-#        files:
-#        - docker-compose.yml
 
     - name: Init docker-compose by - make init
       shell: "make init"

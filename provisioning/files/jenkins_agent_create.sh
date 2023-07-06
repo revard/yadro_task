@@ -36,4 +36,4 @@ EOF
 curl ${MASTER_URL}/jnlpJars/slave.jar -o ~jenkins/slave.jar
 
 # Run jnlp launcher
-java -jar ~jenkins/slave.jar -jnlpUrl ${MASTER_URL}/computer/${NODE_NAME}/slave-agent.jnlp -jnlpCredentials "${MASTER_USERNAME}:${MASTER_PASSWORD}"
+java -jar ~jenkins/slave.jar -jnlpUrl ${MASTER_URL}/computer/${NODE_NAME}/slave-agent.jnlp -jnlpCredentials "${MASTER_USERNAME}:${MASTER_PASSWORD}" 

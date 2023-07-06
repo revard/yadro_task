@@ -6,6 +6,7 @@ services:
     image: jenkinsci/blueocean
     privileged: true
     user: root
+    restart: always
     networks:
       jenkins:
         ipv4_address: 172.168.0.2
@@ -27,11 +28,9 @@ services:
 #        ipv4_address: 172.168.0.3
 #    expose:
 #      - 22
-#    command: ["bash", "-c", "apt update; apt install curl -y; tail -f /dev/null"]
+#    command: ["/home/jenkins/jenkins_agent_create.sh"]
 #    volumes:
 #      - ./jenkins_agent_create.sh:/home/jenkins/jenkins_agent_create.sh
-#      - ./jenkins_agent_init.sh:/home/jenkins/jenkins_agent_init.sh
-
 
 networks:
   jenkins:
