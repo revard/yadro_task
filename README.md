@@ -72,6 +72,6 @@ Here python test project https://github.com/revard/pkg_py_proj/ and Jenkins file
 
 ## TODO
 
-1. Rewrite with other deployment with roles. 
+1. Rewrite other deployment with roles. 
 2. Jenkins automation install. For example https://github.com/Praqma/jcasc-core/
 
