@@ -1,5 +1,7 @@
 # Yadro task
 
+## VM with Jenkins server and registred agent
+
 Brief description of this project:
 
 1. Instal VM by Vagrant.
@@ -60,13 +62,13 @@ After Jenkins server configuring please run ansible playbook to start registered
 
 You can check agent status on http://localhost:8080/computer/bullseye/
 
-### Jenkins file for packaging python project
+## Jenkins file for packaging python project
 
 Here python test project https://github.com/revard/pkg_py_proj/ and Jenkins file - https://github.com/revard/pkg_py_proj/blob/main/Jenkinsfile
 
 ---
 
-### TODO
+## TODO
 
 1. Rewrite with roles
 2. Jenkins automation install 
